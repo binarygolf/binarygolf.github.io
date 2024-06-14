@@ -1,0 +1,126 @@
+<html>
+<head>
+<title>Binary Golf Grand Prix</title>
+<meta charset="utf-8">
+<style>
+@font-face { font-family: "unifont"; src: url("/unifont.woff") format('woff'); }
+      body { color: #d9d9d9; background-color: #0c0d10; }
+       pre { font-family: "unifont", "Lucida Console", monospace, Monaco; font-size: 16px; line-height: 1.0; }
+         a { color: #93f1ff; text-decoration: none; }
+         w { color: white; }
+         k { color: #ff93f1; }
+         l { color: #f1ff93; }
+         r { color: #fa4d57; }
+</style>
+</head>
+<body>
+<div style="display: inline-block; text-align: left;"><pre>
+<k>───<w> Binary Golf Grand Prix 1 </w>───────────────────────────────────────────────<w>//</w>──</k>
+
+Welcome to the Binary Golf Grand Prix! This is a challenge for people who like
+to craft tiny binaries.
+
+There have been a few CTF challenges involving binary golf, but it is sadly a
+dying art outside of the demoscene and some virus writing circles.
+
+Binary Golf is similar to Code Golf, where the purpose is to program something
+in as few instructions as possible. It takes it a step further and challenges 
+people to create the smallest possible binary file as well.
+
+The goal of the Binary Golf Grand Prix is to challenge programmers to make the
+smallest possible binary that fits within certain constraints.
+
+For more info on Binary Golf, here are some resources:
+
+ - <a href="https://www.muppetlabs.com/~breadbox/software/tiny/teensy.html">A Whirlwind Tutorial on Creating Really Teensy ELF Executables for Linux</a>
+ - Elf Binary Mangling Parts <a href="https://n0.lol/ebm/1.html">1</a>, <a href="https://n0.lol/ebm/2.html">2</a>, and <a href="https://n0.lol/ebm/3.html">3</a>
+ - <a href="http://www.phreedom.org/research/tinype/">Tiny PE</a>
+ - <a href="https://n0.lol/a/pemangle.html">Modern PE Mangling</a>
+ - <a href="https://codegolf.stackexchange.com/questions/102471/smallest-possible-runnable-mach-o-executable">Tiny Mach-o</a> 
+ - <a href="https://www.youtube.com/watch?v=VLmrsfSE-tA">Adventures in Binary Golf - AirGap2020</a>
+ - <a href="https://www.pimzero.com/2020/04/19/golf_so.html">golf.so (136 bytes)</a>
+ - <a href="https://saarsec.rocks/2020/05/14/golf.so.html">golf.so (163 bytes)</a>
+ - <a href="http://www.sizecoding.org/wiki/Main_Page">SizeCoding Wiki</a>
+ - <a href="https://github.com/mathiasbynens/small">small: Smallest possible syntactically valid files of different types</a>
+ - <a href="http://www.sizecoding.org/wiki/M8trix_8b">m8trix (8 byte COM file demo)</a>
+
+<k>───<w> The Challenge </w>──────────────────────────────────────────────────────────<w>//</w>──</k>
+
+The inaugural challenge of the BGGP is to create an <a href="https://en.wikipedia.org/wiki/Ambigram">Ambigram</a> binary. Ambigrams
+are essentially calligraphy that is read differently or the same depending on
+how you look at it. In particular, we'll be focusing on "rotational" ambigrams,
+which are read the same when you rotate them 180 degrees.
+
+This challenge was inspired by <a href="https://twitter.com/0xdade/status/1274100140135964672">@0xdade</a>
+
+The binary you will craft will be the same executable when flipped backwards.
+
+Example:
+<w>
+  $ xxd some.random.exe | head -n 1
+  00000000: 4d5a 9000 0345 0000 0400 0000 ffff 0000  MZ...E..........
+</w>
+The entire binary will be reversed, and the first byte, will be the last byte.
+<w>
+  4d5a 9000 0345 .... <-- <r>reversed</r> --> .... 4503 0090 5a4d 
+</w>
+  Disassembly (x86):
+<w>
+    45     inc  ebp
+    03 00  add  eax,DWORD PTR [eax]
+    90     nop
+    5a     pop  edx
+    4d     dec  ebp
+</w>
+Scores will be calculated based on both the size of the executable, as well as
+the percentage of bytes executed when it is run.
+
+An easy solution would be to just have the binary end, and append the binary
+backwards at the end of the original file. Because of this, in order to qualify
+for entry, your binary must at a minimum execute > 50% of the bytes in your 
+binary, and must execute past the halfway mark in your binary as well.
+
+<k>───<w> File Formats </w>───────────────────────────────────────────────────────────<w>//</w>──</k>
+
+Any executable format will be accepted, and must run on an operating system or
+piece of hardware that can be physically or virtually run. Feel free to think
+far beyond the typical PE/ELF/Mach-o binary types, and work with something you
+feel you can express yourself best with. This includes ROMs, bootloaders, 
+firmware or anything else that can execute on a processor.
+
+For a list of binary formats, check <a href="https://en.wikipedia.org/wiki/Comparison_of_executable_file_formats">here</a>!
+
+You must have a working copy that runs on your target system, and instructions
+for running the binary must be provided with your submission!
+
+<k>───<w> tl;dr </w>──────────────────────────────────────────────────────────────────<w>//</w>──</k>
+
+Rules:
+
+ - Any executable binary format
+ - Any OS
+ - Any architecture
+ - Minimum should execute 50% of it's bytes
+ - Must execute within the mirrored section
+ - Must read the same forwards as it does backwards
+ - Must actually run on the target system
+
+Submissions:
+
+ - Submit the binary, source and instructions to run (preferably in a Git repo)
+ - Include a SHA256 hash of your file both forwards and backwards (should match)
+ - Extra credit: Include a write up/blog link describing your process
+
+Scoring:
+
+ - Size
+ - Percentage of bytes executed
+
+The challenge will run until Friday, August 28th 2020 @ 8:00 PM America/New_York
+
+Tweet or DM your submissions to <a href="https://twitter.com/netspooky">@netspooky</a> on Twitter, or alternatively email 
+info [at] thugcrowd [dot] com 
+
+We will do publish a blog and possibly do a live stream to review submissions
+in the week following. We look forward to seeing what you come up with!
+
